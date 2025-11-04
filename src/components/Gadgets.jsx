@@ -1,91 +1,68 @@
+import React from 'react';
 import { motion } from 'framer-motion';
 
 const gadgets = [
   {
     name: 'Anywhere Door',
-    description: 'Open to instantly step anywhere you imagine!',
-    colorFrom: 'from-pink-400',
-    colorTo: 'to-rose-500',
-    icon: (
-      <svg viewBox="0 0 80 120" className="w-14 h-20">
-        <rect x="15" y="5" width="50" height="110" rx="6" fill="#ff6b6b" stroke="#e03131" strokeWidth="4" />
-        <circle cx="58" cy="60" r="4" fill="#ffd43b" />
-      </svg>
-    ),
+    emoji: '🚪',
+    color: 'from-pink-100 to-rose-50',
+    desc: 'Open a portal to any section of the page with a single click.'
   },
   {
     name: 'Bamboo Copter',
-    description: 'A tiny propeller that lets you fly into the sky!',
-    colorFrom: 'from-amber-300',
-    colorTo: 'to-yellow-400',
-    icon: (
-      <svg viewBox="0 0 120 120" className="w-20 h-20">
-        <rect x="56" y="30" width="8" height="50" rx="4" fill="#ffd43b" stroke="#fab005" strokeWidth="3" />
-        <rect x="30" y="20" width="60" height="12" rx="6" fill="#ffd43b" stroke="#fab005" strokeWidth="3" />
-      </svg>
-    ),
+    emoji: '🚁',
+    color: 'from-emerald-100 to-teal-50',
+    desc: 'Float through content with silky-smooth scroll and motion.'
   },
   {
     name: 'Time Machine',
-    description: 'Travel to the past or future for grand adventures!',
-    colorFrom: 'from-sky-400',
-    colorTo: 'to-indigo-500',
-    icon: (
-      <svg viewBox="0 0 140 100" className="w-24 h-16">
-        <rect x="10" y="40" width="120" height="40" rx="10" fill="#74c0fc" stroke="#228be6" strokeWidth="4" />
-        <circle cx="35" cy="60" r="8" fill="#ffd43b" />
-        <circle cx="65" cy="60" r="8" fill="#ffd43b" />
-        <circle cx="95" cy="60" r="8" fill="#ffd43b" />
-      </svg>
-    ),
-  },
+    emoji: '⏱️',
+    color: 'from-sky-100 to-indigo-50',
+    desc: 'Relive highlights as elements animate into view.'
+  }
 ];
 
-export default function Gadgets({ registerHoverSound }) {
+const Gadgets = () => {
   return (
-    <section id="gadgets" className="relative py-20 bg-gradient-to-b from-sky-50 to-white">
-      <div className="container mx-auto px-6">
-        <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-extrabold text-sky-900">How Doraemon Works</h2>
-          <p className="mt-3 text-sky-700/80">Hover to reveal each gadget’s powers!</p>
-        </div>
+    <section id="gadgets" className="relative mx-auto max-w-7xl px-6 py-20">
+      <div className="mx-auto max-w-2xl text-center">
+        <h2 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">Signature Gadgets</h2>
+        <p className="mt-3 text-slate-600">Tap a card and feel the micro-interactions — playful and tactile.</p>
+      </div>
 
-        <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {gadgets.map((g, idx) => (
-            <motion.div
-              key={g.name}
-              whileHover={{ y: -8 }}
-              className="group relative overflow-hidden rounded-3xl border border-sky-100 bg-white shadow-sm"
-            >
-              <div className={`absolute inset-0 bg-gradient-to-br ${g.colorFrom} ${g.colorTo} opacity-0 group-hover:opacity-20 transition`} />
-              <div className="p-6 flex flex-col items-center text-center">
-                <motion.div
-                  className="mb-4"
-                  initial={{ rotate: 0 }}
-                  whileHover={{ rotate: idx === 1 ? 360 : 0 }}
-                  transition={{ duration: 0.8 }}
-                >
-                  {g.icon}
-                </motion.div>
-                <h3 className="text-lg font-bold text-sky-900">{g.name}</h3>
-                <p className="text-sky-700/80 mt-2">{g.description}</p>
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  whileHover={{ opacity: 1, y: 0 }}
-                  className="mt-4"
-                >
-                  <button
-                    onMouseEnter={registerHoverSound}
-                    className="rounded-full bg-sky-600 text-white px-4 py-2 text-sm shadow hover:bg-sky-500"
-                  >
-                    See it in action
-                  </button>
-                </motion.div>
+      <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-3">
+        {gadgets.map((g, idx) => (
+          <motion.button
+            key={g.name}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: idx * 0.06 }}
+            whileHover={{ y: -6, rotate: -0.5 }}
+            whileTap={{ scale: 0.98 }}
+            className={`group relative overflow-hidden rounded-2xl border border-slate-200 bg-gradient-to-b ${g.color} p-5 text-left shadow-sm transition-shadow hover:shadow-xl`}
+          >
+            <div className="pointer-events-none absolute -right-8 -top-8 h-28 w-28 rounded-full bg-white/40 blur-2xl" />
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 className="text-xl font-semibold text-slate-900">{g.name}</h3>
+                <p className="mt-1 text-sm text-slate-600">{g.desc}</p>
               </div>
-            </motion.div>
-          ))}
-        </div>
+              <div className="select-none text-4xl drop-shadow-sm" aria-hidden>{g.emoji}</div>
+            </div>
+            <div className="mt-4 h-2 w-full rounded-full bg-white/60">
+              <motion.div
+                className="h-2 rounded-full bg-sky-400"
+                initial={{ width: '0%' }}
+                whileHover={{ width: '100%' }}
+                transition={{ type: 'spring', stiffness: 120, damping: 16 }}
+              />
+            </div>
+          </motion.button>
+        ))}
       </div>
     </section>
   );
-}
+};
+
+export default Gadgets;
